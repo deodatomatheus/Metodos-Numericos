@@ -1,5 +1,9 @@
 import parser  
 import matplotlib.pyplot as plt
+import sympy as sym
+from sympy.parsing.sympy_parser import parse_expr
+sym.init_printing()
+y, t = sym.symbols('y t')
 
 def euler(param):
 	print('Metodo de Euler')
@@ -19,6 +23,27 @@ def euler(param):
 		k = eval(f)
 		y = y + h * k
 		t = t + h
+	return lista_t, lista_y
+
+def euler_inverso(param):
+	print('Metodo de Euler Inverso')
+	y0 = float(param[1])
+	t0 = float(param[2])	
+	h0 = float(param[3])
+	n = int(param[4])
+	f = parse_expr(param[5])
+	lista_t = []
+	lista_y = []
+	print('y(',t0,') =',y0)
+	print('h =', h0)
+	for j in range(n+1):
+		print(j, " " , y0)
+		lista_y.append(y0)
+		lista_t.append(t0)
+
+		k = float(f.subs(y, (y0 + float(f.subs(y, y0).subs(t, t0)) * h0)).subs(t, t0+h0))
+		y0 = y0 + h0 * k
+		t0 = t0 + h0
 	return lista_t, lista_y
 
 def euler_aprimorado(param):
@@ -94,6 +119,10 @@ for linha in arq:
 		plt.show()
 	elif(param[0]=="euler_aprimorado"):
 		graphic_t, graphic_y  = euler_aprimorado(param)
+		plt.plot(graphic_t, graphic_y)
+		plt.show()
+	elif(param[0]=="euler_inverso"):
+		graphic_t, graphic_y  = euler_inverso(param)
 		plt.plot(graphic_t, graphic_y)
 		plt.show()
 	elif(param[0]=="runge_kutta"):
