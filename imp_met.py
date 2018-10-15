@@ -1,9 +1,15 @@
 import parser  
+import numpy as np
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 import sympy as sym
 from sympy.parsing.sympy_parser import parse_expr
 sym.init_printing()
 y, t = sym.symbols('y t')
+
+cases = ['Euler', 'Euler_Inverso', 'Euler Aprimorado', 'Runge_Kutta']
+
+colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728']
 
 def euler(param):	
 	y0 = float(param[1])
@@ -506,6 +512,16 @@ def formula_inversa(param, t_inic, y_inic, ordem):
 			wrt.write('{:2d}'.format(j) + ' {:.7f}'.format(float(lista_y[j])) + '\n')
 	return lista_t, lista_y
 
+r_y_euler = []
+r_y_euler_inverso = []
+r_y_euler_aprimorado = []
+r_y_runge_kutta = []
+
+r_t_euler = []
+r_t_euler_inverso = []
+r_t_euler_aprimorado = []
+r_t_runge_kutta = []
+
 arq = open('input.txt', 'r')
 wrt = open('output.txt', 'w')
 for linha in arq:
@@ -514,7 +530,8 @@ for linha in arq:
 		wrt.write('Metodo de Euler\n')
 		print('Metodo de Euler')
 		graphic_t, graphic_y  = euler(param)
-
+		r_y_euler = graphic_y
+		r_t_euler = graphic_t
 		plt.xlabel('t')
 		plt.ylabel('y')
 		plt.title('Metodo de Euler')
@@ -524,6 +541,8 @@ for linha in arq:
 		wrt.write('Metodo de Euler Aprimorado\n')
 		print('Metodo de Euler Aprimorado')
 		graphic_t, graphic_y  = euler_aprimorado(param)
+		r_y_euler_aprimorado = graphic_y
+		r_t_euler_aprimorado = graphic_t
 		plt.xlabel('t')
 		plt.ylabel('y')
 		plt.title('Metodo de Euler Aprimorado')
@@ -533,6 +552,8 @@ for linha in arq:
 		wrt.write('Metodo de Euler Inverso\n')
 		print('Metodo de Euler Inverso')
 		graphic_t, graphic_y  = euler_inverso(param)
+		r_y_euler_inverso = graphic_y
+		r_t_euler_inverso = graphic_t
 		plt.xlabel('t')
 		plt.ylabel('y')
 		plt.title('Metodo de Euler Inverso')
@@ -542,6 +563,8 @@ for linha in arq:
 		wrt.write('Metodo de Runge Kutta\n')
 		print('Metodo de Runge Kutta')
 		graphic_t, graphic_y  = runge_kutta(param)
+		r_y_runge_kutta = graphic_y
+		r_t_runge_kutta = graphic_t
 		plt.xlabel('t')
 		plt.ylabel('y')
 		plt.title('Metodo de Runge Kutta')
@@ -773,3 +796,18 @@ for linha in arq:
 	wrt.write('\n')	
 wrt.close()	
 arq.close()
+
+
+fig = plt.figure()
+ax = fig.add_axes([0.1, 0.1, 0.6, 0.75])
+ax.plot(r_t_euler, r_y_euler, label=str(cases[0]))
+ax.plot(r_t_euler_inverso, r_y_euler_inverso, label=str(cases[1]))
+ax.plot(r_t_euler_aprimorado, r_y_euler_aprimorado, label=str(cases[2]))
+ax.plot(r_t_runge_kutta, r_y_runge_kutta, label=str(cases[3]))
+ax.legend(bbox_to_anchor=(1.05, 1), loc='upper left', borderaxespad=0.)
+
+plt.title('Os Euler e Runge-Kutta')
+plt.xlabel('t')
+plt.ylabel('y(t)')
+
+plt.show()
