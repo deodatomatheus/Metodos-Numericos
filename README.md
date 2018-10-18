@@ -21,6 +21,7 @@ deve se chamar **input.txt**, e deve ser escrito seguindo a sintaxe especificada
 Pode-se ter várias entradas no arquivo.
 
  - nome_do_metodo : Os possíveis nomes para os métodos, são:</br>
+  eulers_runge_kutta<br/>
   euler</br>
   euler_inverso</br>
   euler_aprimorado</br>
@@ -50,17 +51,21 @@ Pode-se ter várias entradas no arquivo.
 
 #### Exemplo de Entrada:
 ```
+eulers_runge_kutta 0 0 0.1 20 1-t+4*y
 euler 0 0 0.1 20 1-t+4*y
 runge_kutta 0 0 0.1 20 1-t+4*y
 adam_bashforth 0.0 0.1 0.23 0.402 0.6328 0 0.1 20 1-t+4*y 5
 adam_bashforth_by_euler 0 0 0.1 20 1-t+4*y 6
 adam_multon 0.0 0.1 0.23 0.402 0.6328 0 0.1 20 1-t+4*y 6
-formula_inversa_by_euler_aprimorado 0 0 0.1 20 1-t+4*y 6 
+formula_inversa 0.0 0.1 0.23 0.402 0.6328 0 0.1 20 1-t+4*y 5
+
 
 ```
 
 ## Saída do Programa
-O programa exibe um gráfico para cada função dada no arquivo, e guarda o resultado no diretório do programa
+O programa exibe um gráfico (o grafico de eulers_runge_kutta é plotado de uma vez) para cada função dada no arquivo, e guarda o resultado no diretório do programa
 como um arquivo chamado **`output.txt`**.
+
+
 
 
