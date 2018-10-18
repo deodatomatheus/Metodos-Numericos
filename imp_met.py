@@ -645,7 +645,7 @@ for linha in arq:
 		plt.plot(graphic_t, graphic_y)	
 		plt.show()
 	elif("adam_moulton" in str(param[0])):
-		ordem = int(param[len(param)-1])
+		ordem = int(param[len(param)-1])-1
 		if("euler_aprimorado" in str(param[0])):
 			plt.title('Metodo de Adam Moulton por Euler Aprimorado')
 			wrt.write("Adam_Moulton by Euler_Aprimorado\n")
@@ -696,10 +696,10 @@ for linha in arq:
 			param = param_aux
 		else:				
 			plt.title('Metodo de Adam Moulton')
-			wrt.write('Metodo Adan-Moulton ordem'+ str(ordem) + '\n')			
+			wrt.write('Metodo Adan-Moulton ordem'+ str(ordem+1) + '\n')			
 			wrt.write('y('+ str(param[ordem+1]) + ') = '+ str(param[1])+'\n')
 			wrt.write('h =' + str(param[ordem+2]) + '\n')
-			print("Metodo Adan-Moulton ordem", ordem)
+			print("Metodo Adan-Moulton ordem", ordem+1)
 			print('y(',param[ordem+1],') =',param[1])
 			print('h =', param[ordem+2])
 			t_inic = []
@@ -793,21 +793,40 @@ for linha in arq:
 		plt.ylabel('y')
 		plt.plot(graphic_t, graphic_y)	
 		plt.show()
+	elif(param[0]=="eulers_runge_kutta"):
+		wrt.write('Metodo de Euler\n')
+		print('Metodo de Euler')
+		r_t_euler, r_y_euler  = euler(param)
+
+		wrt.write('Metodo de Euler Aprimorado\n')
+		print('Metodo de Euler Aprimorado')
+		r_t_euler_aprimorado , r_y_euler_aprimorado = euler_aprimorado(param)
+		
+		wrt.write('Metodo de Euler Inverso\n')
+		print('Metodo de Euler Inverso')
+		r_t_euler_inverso, r_y_euler_inverso = euler_inverso(param)		
+
+		wrt.write('Metodo de Runge Kutta\n')
+		print('Metodo de Runge Kutta')		
+		r_t_runge_kutta, r_y_runge_kutta= runge_kutta(param)
+
+		fig = plt.figure()
+		ax = fig.add_axes([0.1, 0.1, 0.6, 0.75])
+		ax.plot(r_t_euler, r_y_euler, label=str(cases[0]))
+		ax.plot(r_t_euler_inverso, r_y_euler_inverso, label=str(cases[1]))
+		ax.plot(r_t_euler_aprimorado, r_y_euler_aprimorado, label=str(cases[2]))
+		ax.plot(r_t_runge_kutta, r_y_runge_kutta, label=str(cases[3]))
+		ax.legend(bbox_to_anchor=(1.05, 1), loc='upper left', borderaxespad=0.)
+
+		plt.title('Os Euler e Runge-Kutta')
+		plt.xlabel('t')
+		plt.ylabel('y(t)')
+
+		plt.show()
+
 	wrt.write('\n')	
 wrt.close()	
 arq.close()
 
 
-fig = plt.figure()
-ax = fig.add_axes([0.1, 0.1, 0.6, 0.75])
-ax.plot(r_t_euler, r_y_euler, label=str(cases[0]))
-ax.plot(r_t_euler_inverso, r_y_euler_inverso, label=str(cases[1]))
-ax.plot(r_t_euler_aprimorado, r_y_euler_aprimorado, label=str(cases[2]))
-ax.plot(r_t_runge_kutta, r_y_runge_kutta, label=str(cases[3]))
-ax.legend(bbox_to_anchor=(1.05, 1), loc='upper left', borderaxespad=0.)
 
-plt.title('Os Euler e Runge-Kutta')
-plt.xlabel('t')
-plt.ylabel('y(t)')
-
-plt.show()
